@@ -52,10 +52,6 @@ module Refinery
         end
       end
 
-      initializer "refinery.will_paginate" do
-        WillPaginate.per_page = 20
-      end
-
       initializer "register refinery_core plugin" do
         Refinery::Plugin.register do |plugin|
           plugin.pathname = root

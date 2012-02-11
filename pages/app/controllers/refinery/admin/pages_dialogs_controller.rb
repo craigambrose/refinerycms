@@ -12,14 +12,15 @@ module ::Refinery
         end
 
         @pages = ::Refinery::Page.where(:parent_id => nil).
-                                  paginate(:page => params[:page], :per_page => Page.per_page(true)).
+                                  page(params[:page]).per(Page.per_page(true)).
                                   order('position')
 
         @pages = @pages.with_globalize if ::Refinery.i18n_enabled?
 
         if ::Refinery::Plugins.registered.names.include?('refinery_files')
-            @resources = Resource.paginate(:page => params[:resource_page], :per_page => Resource.per_page(true)).
-                                  order('created_at DESC')
+            @resources = Resource.page(params[:resource_page]).
+                                order('created_at DESC').
+                                per(Resource.per_page(true))
 
           # resource link
           if params[:current_link].present?

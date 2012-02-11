@@ -2,6 +2,7 @@
 
 * Remove jquery_include_tags helper in favor of using jquery from jquery-rails gem. [Uģis Ozols](https://github.com/ugisozols)
 * Finally removed `Page#[]` in favour of `Page#content_for` so instead of `@page[:body]` it's `@page.content_for(:body)`. [Philip Arndt](https://github.com/parndt)
+* Migrated to [Kaminari](https://github.com/amatsuda/kaminari) for pagination. [Uģis Ozols](https://github.com/ugisozols)
 * Moved everything under Refinery namespace. [wakeless](https://github.com/wakeless)
 * Renamed `RefinerySetting` to `Refinery::Setting`. [Philip Arndt](https://github.com/parndt)
 * Added `--trace` option to bin/refinerycms. [Steven Heidel](http://github.com/stevenheidel)

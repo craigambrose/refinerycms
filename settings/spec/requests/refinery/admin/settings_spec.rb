@@ -46,7 +46,7 @@ module Refinery
         specify "page links" do
           visit refinery.admin_settings_path
 
-          page.should have_selector("a[href*='settings?page=2']")
+          page.should have_selector("a[href*='page=2']")
         end
       end
     end
