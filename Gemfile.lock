@@ -150,9 +150,6 @@ GEM
       activemodel (>= 3.0.0)
       activerecord (>= 3.0.0)
       paper_trail (~> 2)
-    growl (1.0.3)
-    growl_notify (0.0.3)
-      rb-appscript
     guard (1.0.0)
       ffi (>= 0.5.0)
       thor (~> 0.14.6)
@@ -213,7 +210,6 @@ GEM
       rdoc (~> 3.4)
       thor (~> 0.14.6)
     rake (0.9.2.2)
-    rb-appscript (0.6.1)
     rb-fsevent (0.9.0)
     rdoc (3.12)
       json (~> 1.4)
@@ -234,6 +230,7 @@ GEM
       railties (>= 3.0)
       rspec (~> 2.8.0)
     ruby-progressbar (0.0.10)
+    ruby_gntp (0.3.4)
     rubyzip (0.9.5)
     sass (3.1.14)
     sass-rails (3.2.4)
@@ -277,8 +274,6 @@ DEPENDENCIES
   activerecord-jdbcsqlite3-adapter
   coffee-rails
   generator_spec (>= 0.8.5)
-  growl (~> 1.0.3)
-  growl_notify
   guard-spork
   jquery-rails (~> 2.0.0)
   jruby-openssl
@@ -290,6 +285,7 @@ DEPENDENCIES
   refinerycms!
   refinerycms-i18n!
   refinerycms-testing (~> 2.0.0)
+  ruby_gntp
   sass-rails
   spork (~> 0.9.0.rc)
   sqlite3
