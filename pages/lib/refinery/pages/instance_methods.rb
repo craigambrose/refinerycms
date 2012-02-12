@@ -12,8 +12,9 @@ module Refinery
         end
       end
 
-    protected
+#    protected
       def find_pages_for_menu
+        raise 'bad access'
         # Compile the menu
         @menu_pages = ::Refinery::Menu.new(::Refinery::Page.fast_menu)
       end

@@ -7,9 +7,9 @@ gemspec
 
 # gem 'refinerycms', '~> 2.0.0'
 
-# END REFINERY CMS ============================================================
-
-# REFINERY CMS DEVELOPMENT ====================================================
+# gem 'guard-hydra'
+# gem 'test-unit'
+gem 'parallel_tests'
 
 # Database Configuration
 platforms :jruby do

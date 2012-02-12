@@ -4,7 +4,7 @@ require "spec_helper"
 module Refinery
   module Admin
     describe "Pages" do
-      login_refinery_user
+      #login_refinery_user
 
       context "when no pages" do
         before(:each) { Refinery::Page.destroy_all }

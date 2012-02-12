@@ -18,7 +18,7 @@ module Refinery
       send :before_filter, :find_pages_for_menu, :refinery_user_required?
 
       send :after_filter, :store_current_location!,
-                            :if => Proc.new {|c| send(:refinery_user?) }
+                          :if => Proc.new {|c| send(:refinery_user?) }
 
       if Refinery::Core.rescue_not_found
         send :rescue_from, ActiveRecord::RecordNotFound,
@@ -61,7 +61,7 @@ module Refinery
       (controller_name =~ /^(user|session)(|s)/ and not admin?) or just_installed?
     end
 
-    protected
+  protected
 
     # get all the pages to be displayed in the site menu.
     def find_pages_for_menu
@@ -80,7 +80,7 @@ module Refinery
       end
     end
 
-    private
+  private
 
     def store_current_location!
       if admin? and request.get? and !request.xhr? and !from_dialog?

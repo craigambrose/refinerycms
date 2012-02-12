@@ -3,14 +3,17 @@ require 'spec_helper'
 
 module Refinery
   describe 'page frontend' do
+    let(:home_page) { FactoryGirl.build(:page, :title => 'Home', :link_url => '/') }
+    let(:about_page) { FactoryGirl.build(:page, :title => 'About') }
+    let(:draft_page) { FactoryGirl.build(:page, :title => 'Draft', :draft => true) }
     before(:each) do
       # So that we can use Refinery.
-      FactoryGirl.create(:refinery_user)
+      Refinery::PagesController.any_instance.stub(:refinery_user_required?).and_return(true)
 
-      # Create some pages for these specs
-      FactoryGirl.create(:page, :title => 'Home', :link_url => '/')
-      FactoryGirl.create(:page, :title => 'About')
-      FactoryGirl.create(:page, :title => 'Draft', :draft => true)
+      # Stub the menu pages we're expecting
+      Refinery::PagesController.any_instance.stub(:find_pages_for_menu).and_return(
+        ::Refinery::Menu.new([ home_page, about_page, draft_page ])
+      )
     end
 
     def standard_page_menu_items_exist?
@@ -26,13 +29,15 @@ module Refinery
         before { Refinery::Pages.stub(:marketable_urls).and_return(true) }
 
         it 'shows the homepage' do
+          Refinery::PagesController.any_instance.stub(:find_page).and_return(:home_page)
           visit '/'
 
           standard_page_menu_items_exist?
         end
 
         it 'shows a show page' do
-          visit refinery.page_path(Refinery::Page.find('about'))
+          Refinery::PagesController.any_instance.stub(:find_page).and_return(:about_page)
+          visit refinery.page_path(about_page)
 
           standard_page_menu_items_exist?
         end
@@ -42,17 +47,19 @@ module Refinery
         before { Refinery::Pages.stub(:marketable_urls).and_return(false) }
 
         it 'shows the homepage' do
+          Refinery::PagesController.any_instance.stub(:find_page).and_return(:home_page)
           visit '/'
 
           standard_page_menu_items_exist?
         end
 
         it 'does not route to /about for About page' do
-          refinery.page_path(Refinery::Page.find('about')).should =~ %r{/pages/about$}
+          refinery.page_path(about_page).should =~ %r{/pages/about$}
         end
 
         it 'shows the about page' do
-          visit refinery.page_path(Refinery::Page.find('about'))
+          Refinery::PagesController.any_instance.stub(:find_page).and_return(:about_page)
+          visit refinery.page_path(about_page)
 
           standard_page_menu_items_exist?
         end
@@ -60,27 +67,23 @@ module Refinery
     end
 
     describe 'title set (without menu title or browser title)' do
-      it "shows title at the top of the page" do
-        visit "/about"
+      before(:each) { visit '/about' }
 
+      it "shows title at the top of the page" do
         find("#body_content_title").text.should == "About"
       end
 
       it "uses title in the menu" do
-        visit "/about"
-
         find(".selected").text.strip.should == "About"
       end
 
       it "uses title in browser title" do
-        visit "/about"
-
         find("title").should have_content("About")
       end
     end
 
     describe 'when menu_title is' do
-      let!(:page_mt) { FactoryGirl.create(:page, :title => 'Company News') }
+      let!(:page_mt) { FactoryGirl.build(:page, :title => 'Company News') }
 
       describe 'set' do
         before do
@@ -280,7 +283,7 @@ module Refinery
 
     describe "skip to first child" do
       before(:each) do
-       about = Refinery::Page.find('about')
+       about = about_page
        about.skip_to_first_child = true
        about.save!
        FactoryGirl.create(:page, :title => "Child Page", :parent_id => about.id)
